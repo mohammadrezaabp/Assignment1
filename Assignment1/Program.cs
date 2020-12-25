@@ -10,7 +10,7 @@ namespace Assignment1
         static void Main(string[] args)
         {
             DataBaseContext dataBaseContext = new DataBaseContext();
-            //uncomment next line for first build
+            //comment next line after first build
             //AddMockData(dataBaseContext);
             var myEntity = GetEntity(dataBaseContext);
             RemoveEntity(dataBaseContext, myEntity);
@@ -27,7 +27,18 @@ namespace Assignment1
 
         private static void SetCurrentEntityStateToDetached(DataBaseContext dataBaseContext, MyEntity myEntity)
         {
+            //there are different ways to do to this
+            //1
             dataBaseContext.Entry(myEntity).State = EntityState.Detached;
+            //2
+            //dataBaseContext.ChangeTracker.Clear();
+            //3
+            //var deletedStates = dataBaseContext.ChangeTracker.Entries().Where(t => t.State == EntityState.Deleted).ToList();
+            // foreach (var item in deletedStates)
+            // {
+            //     item.State = EntityState.Detached;
+
+            // }
         }
 
         private static void AddMockData(DataBaseContext dataBaseContext)
@@ -47,7 +58,7 @@ namespace Assignment1
 
         private static MyEntity GetEntity(DataBaseContext dataBaseContext)
         {
-            return dataBaseContext.Find<MyEntity>(1);
+            return dataBaseContext.MyEntity.FirstOrDefault();
         }
     }
 
